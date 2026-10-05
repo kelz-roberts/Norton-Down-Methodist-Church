@@ -4,6 +4,8 @@ A prototype website for Norton Down Methodist Church, Stratton-on-the-Fosse, Som
 
 It is a single page (`index.html`) with six sections: Home, Your first visit, What's on, Weddings & baptisms, Our story, and Find us & contact. Photos are in `img/`. There is no build step: open `index.html` in a browser.
 
+Live preview for review: https://kelz-roberts.github.io/Norton-Down-Methodist-Church/ (published with GitHub Pages from the `main` branch, so every push to `main` updates it).
+
 ## Design approach
 
 - Written for an older congregation and for people in the local community who don't yet come to church.

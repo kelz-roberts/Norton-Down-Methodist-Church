@@ -37,6 +37,25 @@ has no mail records at all, so it could never receive email.
 - The "Send us a message" form does not send anywhere yet. It shows a thank you and discards
   the message. Laron is hooking it up to email before go-live. It should send to Malcolm at
   m.barlow1942@gmail.com. Left as-is deliberately until then.
-- Confirm Malcolm is happy for his personal Gmail address to appear on a public website.
 - Better long-term fix: set up malcolm@nortondownmethodistchurch.org.uk to forward to his
   Gmail. Needs access to the domain settings.
+
+## Confirmed by the church (9 October 2026)
+
+- Malcolm Barlow has confirmed he is happy for his phone number and email address to appear
+  on the public website. He is also the key contact for this rebuild.
+- Malcolm is the key contact because Rev Andrew Prout is slow to respond. The minister's
+  details stay listed on the contact page, but nothing on the site routes people to him.
+  Do not undo this: it is a deliberate decision by the church, not an oversight.
+- Elaine Herbert, baptism secretary, 01761 412773, is shown for baptism bookings - on the
+  baptisms card and on the contact page. Her number is already public on the church's
+  current website.
+
+## Corrected by the church (9 October 2026)
+
+- No tea or coffee is served after the Sunday service. People do stay behind for a chat.
+  Reworded in four places. The Wednesday coffee morning is unaffected and still serves
+  tea, coffee and biscuits.
+- The chapel does have a hearing loop. The accessibility FAQ previously said it did not.
+- Malcolm Barlow is the primary contact for everything, weddings and funerals included.
+  Those now point to him rather than to Rev Andrew Prout.

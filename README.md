@@ -6,6 +6,12 @@ It is a single page (`index.html`) with six sections: Home, Your first visit, Wh
 
 Live preview for review: https://kelz-roberts.github.io/Norton-Down-Methodist-Church/ (published with GitHub Pages from the `main` branch, so every push to `main` updates it).
 
+Every push to `main` also deploys to AWS (`.github/workflows/deploy.yml`), the same hosting as the other sites: https://d22qp2geezwn7q.cloudfront.net. That address becomes www.nortondownmethodistchurch.org.uk once the domain moves, which needs the church's Zen Internet login. Infrastructure: `kelz-roberts/Tofu-iac`, `infra/environments/norton-down-prod`.
+
+## Prototype markings removed (4 November 2026)
+
+The gold "Prototype for discussion" banner, the "Notes for the church committee" drawer it opened, the footer's "Prototype design, not the live website" line, and the unused striped photo-placeholder and "to confirm" styles have all been removed. The committee notes' open questions are tracked in this README instead. The open items below still need resolving before the site replaces the current one.
+
 ## Design approach
 
 - Written for an older congregation and for people in the local community who don't yet come to church.

@@ -147,6 +147,10 @@ section.band.alt{background:var(--sunk)}
 input[type=text],input[type=email],input[type=tel],textarea,select{font:inherit;font-size:1rem;padding:12px 14px;border:2px solid var(--muted);border-radius:8px;background:var(--surface);color:var(--ink);min-height:52px;width:100%}
 textarea{min-height:130px;resize:vertical}
 .done{background:var(--green-soft);color:var(--ink);border-radius:8px;padding:14px 16px;font-weight:700}
+.problem{background:var(--gold-soft);color:var(--gold-ink);border-radius:8px;padding:14px 16px;font-weight:700}
+[aria-invalid="true"]{border-color:var(--gold)}
+/* Spam trap: hidden from people and screen readers, filled in only by bots */
+.trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
 /* Steps */
 .steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;gap:0}
@@ -577,8 +581,10 @@ footer .fine{grid-column:1/-1;border-top:1px solid color-mix(in srgb,var(--green
             <select id="mAbout"><option>A general question</option><option>I’d like to visit</option><option>I’d like a lift on Sunday</option><option>Weddings or baptisms</option><option>A funeral</option><option>Please pray for me or someone I know</option></select>
           </div>
           <div class="field"><label for="mMsg">Your message</label><textarea id="mMsg"></textarea></div>
+          <div class="trap" aria-hidden="true"><label for="mWebsite">Leave this empty</label><input type="text" id="mWebsite" name="_gotcha" tabindex="-1" autocomplete="off"></div>
           <button class="btn primary" type="submit">Send message</button>
-          <p class="done" id="msgDone" role="status" hidden>Thank you. In the real website this would be sent to the church steward.</p>
+          <p class="problem" id="msgProblem" role="alert" hidden></p>
+          <p class="done" id="msgDone" role="status" tabindex="-1" hidden>Thank you. Your message has been sent to Malcolm Barlow, our church steward, who will get back to you.</p>
         </form>
       </div>
     </div>
@@ -688,7 +694,55 @@ footer .fine{grid-column:1/-1;border-top:1px solid color-mix(in srgb,var(--green
     document.querySelectorAll('#events .event').forEach(function(ev){ ev.hidden = !(f==='all' || ev.dataset.type===f); });
   }); });
 
-  document.getElementById('msgForm').addEventListener('submit', function(e){ e.preventDefault(); document.getElementById('msgDone').hidden = false; });
+  // Send us a message -> the church's contact-form API (Tofu-iac repo,
+  // infra/environments/norton-down-prod). Messages go to Malcolm Barlow by email.
+  var MSG_ENDPOINT = 'https://dyspj8imk0.execute-api.eu-west-2.amazonaws.com/contact';
+  var msgForm = document.getElementById('msgForm');
+  msgForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var done = document.getElementById('msgDone'), problem = document.getElementById('msgProblem');
+    var reply = document.getElementById('mReply'), msg = document.getElementById('mMsg');
+    var btn = msgForm.querySelector('button[type="submit"]');
+    done.hidden = true; problem.hidden = true;
+    [reply, msg].forEach(function(f){ f.removeAttribute('aria-invalid'); });
+
+    var missing = [reply, msg].filter(function(f){ return !f.value.trim(); });
+    if(missing.length){
+      missing.forEach(function(f){ f.setAttribute('aria-invalid', 'true'); });
+      problem.textContent = missing.length === 2 ? 'Please add a phone number or email, and your message.'
+        : missing[0] === reply ? 'Please add a phone number or email so we can get back to you.'
+        : 'Please add your message.';
+      problem.hidden = false;
+      missing[0].focus();
+      return;
+    }
+
+    // Keys are the labels the visitor saw, so the email reads the same way.
+    var fields = {};
+    var name = document.getElementById('mName').value.trim();
+    if(name) fields['Your name'] = name;
+    fields['Phone number or email'] = reply.value.trim();
+    fields['What is it about?'] = document.getElementById('mAbout').value;
+    fields['Your message'] = msg.value.trim();
+
+    btn.disabled = true; btn.textContent = 'Sending…';
+    fetch(MSG_ENDPOINT, {
+      method: 'POST',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify({form: 'Send us a message', fields: fields, _gotcha: msgForm.elements._gotcha.value})
+    })
+      .then(function(r){ return r.json().catch(function(){ return {ok: r.ok}; }); })
+      .then(function(res){
+        if(!res || !res.ok) throw new Error('not sent');
+        msgForm.reset();
+        done.hidden = false; done.focus();
+      })
+      .catch(function(){
+        problem.textContent = 'Sorry, your message didn’t send. Please ring Malcolm on 07966 434623, or try again in a few minutes.';
+        problem.hidden = false;
+      })
+      .then(function(){ btn.disabled = false; btn.textContent = 'Send message'; });
+  });
 
   // Copy
   document.querySelectorAll('[data-copy]').forEach(function(btn){

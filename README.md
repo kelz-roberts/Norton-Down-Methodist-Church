@@ -37,11 +37,15 @@ has no mail records at all, so it could never receive email.
 
 ## New open questions
 
-- The "Send us a message" form does not send anywhere yet. It shows a thank you and discards
-  the message. Laron is hooking it up to email before go-live. It should send to Malcolm at
-  m.barlow1942@gmail.com. Left as-is deliberately until then.
+- **The "Send us a message" form emails Malcolm** at m.barlow1942@gmail.com (wired up
+  4 November 2026). It sends from no-reply@nortondownmethodistchurch.org.uk through the
+  church's AWS form handler (`Tofu-iac`, `infra/environments/norton-down-prod`). A phone
+  number or an email is required, plus a message; the name is optional. If the visitor gave
+  an email, Malcolm can just press Reply. If sending fails, the page asks them to ring
+  Malcolm on 07966 434623. A hidden field catches spam bots.
 - Better long-term fix: set up malcolm@nortondownmethodistchurch.org.uk to forward to his
-  Gmail. Needs access to the domain settings.
+  Gmail, so the address belongs to the church rather than to Malcolm. The domain has no
+  email set up at all today (no MX record at Zen).
 
 ## Confirmed by the church (9 October 2026)
 

@@ -134,14 +134,14 @@ The cups are a fixed cream (#F7F4EC) rather than var(--surface), because in dark
 --surface is nearly black and the cups disappeared against the dark green. The steam uses
 --muted, which flips with the theme. Keep that in mind if the drawing is ever edited.
 
-## What's on: dates run out after 29 November 2026
+## What's on: dates run out after 28 February 2027
 
 Past events are hidden automatically. The script compares each `data-date` against today in the
 visitor's browser and removes anything already past, then names the next service on the home
 page. It cannot add events - those are hand-typed here.
 
-The last listed event is Advent Sunday, 29 November 2026. From early November, get the Somerset
-Mendip Circuit preaching plan for December onwards from Malcolm and add one
+The last listed event is 28 February 2027 (plan received 14 Nov 2026, covering Dec-Feb). From
+early February, get the next Somerset Mendip Circuit preaching plan from Malcolm and add one
 `<article class="event" data-date="YYYY-MM-DD" ...>` per service, following the existing
 pattern. Christmas services should go up well before December.
 
